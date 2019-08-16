@@ -38,6 +38,18 @@ class SwapAPI(Client):
             params['limit'] = limit
         return self._request_with_params(GET, SWAP_ACCOUNTS+'/'+str(instrument_id)+'/ledger', params)
 
+    def get_ledger_paging(self, instrument_id, froms='', to='', limit='', after=None):
+        params = {}
+        if froms:
+            params['from'] = froms
+        if to:
+            params['to'] = to
+        if limit:
+            params['limit'] = limit
+        if after:
+            params['after'] = after
+        return self._request_with_params(GET, SWAP_ACCOUNTS+'/'+str(instrument_id)+'/ledger', params, cursor=True)
+
     def take_order(self, instrument_id, size, otype, price, client_oid, match_price):
         params = {'instrument_id': instrument_id, 'size': size, 'type': otype, 'price': price}
         if client_oid:
