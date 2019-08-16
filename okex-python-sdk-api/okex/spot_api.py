@@ -23,9 +23,15 @@ class SpotAPI(Client):
         return self._request_with_params(GET, SPOT_LEDGER_RECORD + str(symbol) + '/ledger', params)
 
     # query ledger record with paging
-    #def get_ledger_record_paging(self, symbol, before, after, limit):
-    #    params = {'before': before, 'after': after, 'limit': limit}
-    #    return self._request_with_params(GET, SPOT_LEDGER_RECORD + str(symbol) + '/ledger', params, cursor=True)
+    def get_ledger_record_paging(self, symbol, before, after, limit):
+        params = {}
+        if before:
+            params['before'] = before
+        if after:
+            params['after'] = after
+        if limit:
+            params['limit'] = limit
+        return self._request_with_params(GET, SPOT_LEDGER_RECORD + str(symbol) + '/ledger', params, cursor=True)
 
     # take order
     def take_order(self, otype, side, instrument_id, size, margin_trading=1, client_oid='', price='', funds='',order_type = ''):
