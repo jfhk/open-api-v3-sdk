@@ -38,7 +38,7 @@ class SwapAPI(Client):
             params['limit'] = limit
         return self._request_with_params(GET, SWAP_ACCOUNTS+'/'+str(instrument_id)+'/ledger', params)
 
-    def get_ledger_paging(self, instrument_id, froms='', to='', limit='', after=None):
+    def get_ledger_paging(self, instrument_id, froms='', to='', limit='', before=None, after=None):
         params = {}
         if froms:
             params['from'] = froms
@@ -46,6 +46,8 @@ class SwapAPI(Client):
             params['to'] = to
         if limit:
             params['limit'] = limit
+        if before:
+            params['before'] = before
         if after:
             params['after'] = after
         return self._request_with_params(GET, SWAP_ACCOUNTS+'/'+str(instrument_id)+'/ledger', params, cursor=True)
@@ -84,6 +86,20 @@ class SwapAPI(Client):
         if limit:
             params['limit'] = limit
         return self._request_with_params(GET, SWAP_ORDERS+'/'+str(instrument_id), params)
+
+    def get_order_list_paging(self, status, instrument_id, froms='', to='', limit='', before=None, after=None):
+        params = {'status': status}
+        if froms:
+            params['from'] = froms
+        if to:
+            params['to'] = to
+        if limit:
+            params['limit'] = limit
+        if before:
+            params['before'] = before
+        if after:
+            params['after'] = after
+        return self._request_with_params(GET, SWAP_ORDERS+'/'+str(instrument_id), params, cursor=True)
 
     def get_order_info(self, instrument_id='', order_id='',client_oid = ''):
         if order_id:
