@@ -86,6 +86,18 @@ class SpotAPI(Client):
             params['instrument_id'] = instrument_id
         return self._request_with_params(GET, SPOT_ORDERS_LIST, params, cursor=True)
 
+    def get_orders_list_paging(self, status, instrument_id, froms='', to='', limit='100', after=None):
+        params = {'status': status, 'instrument_id': instrument_id, 'limit': limit}
+        if froms:
+            params['from'] = froms
+        if to:
+            params['to'] = to
+        if instrument_id:
+            params['instrument_id'] = instrument_id
+        if after:
+            params['after'] = after
+        return self._request_with_params(GET, SPOT_ORDERS_LIST, params, cursor=True)
+
     # query order info
     def get_order_info(self, instrument_id='btc-usdt',order_id='',client_oid=''):
         params = {'instrument_id': instrument_id}
