@@ -1,3 +1,5 @@
+import time
+
 import requests
 import json
 from . import consts as c, utils, exceptions
@@ -24,6 +26,9 @@ class Client(object):
         # sign & header
         if self.use_server_time:
             timestamp = self._get_timestamp()
+            while not timestamp:
+                time.sleep(0.001)
+                timestamp = self._get_timestamp()
         body = json.dumps(params) if method == c.POST else ""
 
         sign = utils.sign(utils.pre_hash(timestamp, method, request_path, str(body)), self.API_SECRET_KEY)
